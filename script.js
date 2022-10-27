@@ -40,44 +40,65 @@ const gameBoard =(function () {
 const userFactory = () => {
     let _tokenType ='undefined';
     let name = '';
-    const _htmlBoard = document.querySelectorAll('[data-row]')
+    
 
     const setToken = (token) =>{
         _tokenType = token;
     }
-    const playTurn = () =>{
-    
-        _htmlBoard.forEach(box => box.addEventListener("click", (e) => {
-            let clickCol= e.target.dataset.col;
-            let clickRow= e.target.dataset.row;
-            console.log(e.target.dataset.row);
-            console.log(e.target.dataset.col);
-                
-            gameBoard.move(clickRow,clickCol,_tokenType);
-        }))
+    const playTurn = (row,column) =>{
+        gameBoard.move(row,column,_tokenType);
     }
-    // const test = () =>{
-    //     gameBoard.print();
-    //     gameBoard.move(0,2,"x");
-    // }
+
 
     return{
+
         setToken,
         playTurn,
-        // test
+
     }
 
 
 }
 
 const displayController = (function(){
-    //checkWin
-    //giveTurn ?¿
+    let _turn =0;
+    let clickCol ='';
+    let clickRow ='';
+    const _htmlBoard = document.querySelectorAll('[data-row]')
 
+    const startGame = () => {
+
+        _htmlBoard.forEach(box => box.addEventListener("click", (e) => {
+            clickCol= e.target.dataset.col;
+            clickRow= e.target.dataset.row;
+            _turn++;
+
+            if(_turn % 2 == 0) { //check for even turn
+                playerOne.playTurn(clickRow,clickCol);
+            }else{
+                playerTwo.playTurn(clickRow,clickCol);
+            }
+
+        }))
+    }
+
+    const checkWin = () => {
+        // check the board for winner
+        // check if all cells are occupy => draw
+    }
+    
+    return {
+        startGame,
+    }
 })()
+
+
 const playerOne = userFactory();
+const playerTwo = userFactory();
 
 playerOne.setToken("X");
-playerOne.playTurn();
+playerTwo.setToken("O")
+
+displayController.startGame();
 
 
