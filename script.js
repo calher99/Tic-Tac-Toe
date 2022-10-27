@@ -13,9 +13,12 @@ const gameBoard =(function () {
     }
     const move = (row,column,token) =>{
         _board[row][column] = token;
+        render();
 
     }
-
+    const print = () => {
+        console.table(_board);
+    }
     const render = () => {
         let k=0;
         for(let i = 0 ; i < 3; i++ ){
@@ -29,7 +32,8 @@ const gameBoard =(function () {
     return{
         initialize,
         move,
-        render
+        render,
+        print
     }
 })()
 
@@ -42,13 +46,25 @@ const userFactory = () => {
         _tokenType = token;
     }
     const playTurn = () =>{
-
-
-        gameBoard.move(row,col,_tokenType)
+    
+        _htmlBoard.forEach(box => box.addEventListener("click", (e) => {
+            let clickCol= e.target.dataset.col;
+            let clickRow= e.target.dataset.row;
+            console.log(e.target.dataset.row);
+            console.log(e.target.dataset.col);
+                
+            gameBoard.move(clickRow,clickCol,_tokenType);
+        }))
     }
+    // const test = () =>{
+    //     gameBoard.print();
+    //     gameBoard.move(0,2,"x");
+    // }
 
     return{
         setToken,
+        playTurn,
+        // test
     }
 
 
@@ -60,10 +76,8 @@ const displayController = (function(){
 
 })()
 const playerOne = userFactory();
-const playerTwo = userFactory();
+
+playerOne.setToken("X");
+playerOne.playTurn();
 
 
-gameBoard.initialize();
-gameBoard.render();
-gameBoard.move(1,1,"x");
-gameBoard.render();
