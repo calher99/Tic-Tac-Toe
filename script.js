@@ -11,6 +11,7 @@ const gameBoard =(function () {
         }
         
     }
+
     const move = (row,column,token) =>{
         _board[row][column] = token;
         render();
@@ -29,11 +30,20 @@ const gameBoard =(function () {
         }
     }
 
+    const checkCellOccupied = (row,col) =>{
+
+        if(_board[row][col] != ""){
+            return 1;
+        }
+
+        return 0;
+    }
     return{
         initialize,
         move,
         render,
-        print
+        print,
+        checkCellOccupied
     }
 })()
 
@@ -71,13 +81,23 @@ const displayController = (function(){
         _htmlBoard.forEach(box => box.addEventListener("click", (e) => {
             clickCol= e.target.dataset.col;
             clickRow= e.target.dataset.row;
-            _turn++;
 
-            if(_turn % 2 == 0) { //check for even turn
-                playerOne.playTurn(clickRow,clickCol);
+            if(gameBoard.checkCellOccupied(clickRow,clickCol)){
+
+                console.log("try another move!")
+
             }else{
-                playerTwo.playTurn(clickRow,clickCol);
+                if(_turn % 2 == 0) { //check for even turn
+                    playerOne.playTurn(clickRow,clickCol);
+                }else{
+                    playerTwo.playTurn(clickRow,clickCol);
+                    
+                }
+                _turn++;
             }
+            
+
+            
 
         }))
     }
