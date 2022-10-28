@@ -38,12 +38,61 @@ const gameBoard =(function () {
 
         return 0;
     }
+
+    const checkWin = () => {
+        let row= 0;
+        let winRow = 0;
+        let col = 0;
+        let winCol = 0;
+
+        do{
+            if(_board[row][0] === _board[row][1] && _board[row][1] === _board[row][2] && _board[row][0]!==""){
+                winRow = 1;
+                console.log("WONNNNN")
+            }
+            row++
+        }while( winRow===0 && row<3)
+
+        do{
+            if(_board[0][col] === _board[1][col] && _board[1][col] === _board[2][col] && _board[0][col]!==""){
+                winCol = 1;
+                console.log("WONNNNN")
+            }
+            col++
+        }while( winCol===0 && col<3)
+
+        let i=1;
+        let continueD1 = 1;
+        let continueD2 = 1;
+
+        do{
+            if(_board[0][0] === _board[i][i] && _board[0][0] !==""  && continueD1 === 1){
+                continueD1 = 1;
+            }else{
+                continueD1 = 0;
+            }
+            
+            if(_board[0][2] === _board[i][2-i] && _board[0][2] !=="" && continueD2 === 1){
+                continueD2 = 1;
+            }else{
+                continueD2 = 0;
+            }
+            i++;
+        }while(i<3)
+       
+        if(continueD1 === 1 || continueD2===1){
+            console.log("WON DIAGONAL")
+        }
+        
+    }
+
     return{
         initialize,
         move,
         render,
         print,
-        checkCellOccupied
+        checkCellOccupied,
+        checkWin
     }
 })()
 
@@ -87,6 +136,7 @@ const displayController = (function(){
                 console.log("try another move!")
 
             }else{
+
                 if(_turn % 2 == 0) { //check for even turn
                     playerOne.playTurn(clickRow,clickCol);
                 }else{
@@ -95,12 +145,13 @@ const displayController = (function(){
                 }
                 _turn++;
 
+                gameBoard.checkWin();
+
                 if(_checkNoMoves()){
                     console.log("GAME IS OVER")
+                    // We should not let the user click anymore or print something
                 }
-                // if(_checkNoMoves){
-                //     console.log("Board is full");
-                // }
+               
             }
             
             
@@ -109,10 +160,7 @@ const displayController = (function(){
         }))
     }
 
-    const checkWin = () => {
-        // check the board for winner
-        // check if all cells are occupy => draw
-    }
+  
     const _checkNoMoves = () => {
 
         let row=0;
@@ -130,12 +178,8 @@ const displayController = (function(){
                 col++;
 
             }while( !foundEmpty && col<3)
-
             row++;
-
         }while( !foundEmpty && row<3)
-
-    
 
     return fullBoard;
 
