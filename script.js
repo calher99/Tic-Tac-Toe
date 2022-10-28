@@ -41,25 +41,23 @@ const gameBoard =(function () {
 
     const checkWin = () => {
         let row= 0;
-        let winRow = 0;
         let col = 0;
-        let winCol = 0;
+        let win =0;
 
         do{
             if(_board[row][0] === _board[row][1] && _board[row][1] === _board[row][2] && _board[row][0]!==""){
-                winRow = 1;
-                console.log("WONNNNN")
+                win = 1;
             }
             row++
-        }while( winRow===0 && row<3)
+
+        }while( win===0 && row<3)
 
         do{
             if(_board[0][col] === _board[1][col] && _board[1][col] === _board[2][col] && _board[0][col]!==""){
-                winCol = 1;
-                console.log("WONNNNN")
+                win = 1;
             }
             col++
-        }while( winCol===0 && col<3)
+        }while( win===0 && col<3)
 
         let i=1;
         let continueD1 = 1;
@@ -81,9 +79,9 @@ const gameBoard =(function () {
         }while(i<3)
        
         if(continueD1 === 1 || continueD2===1){
-            console.log("WON DIAGONAL")
+            win=1;
         }
-        
+        return win;
     }
 
     return{
@@ -98,8 +96,15 @@ const gameBoard =(function () {
 
 const userFactory = () => {
     let _tokenType ='undefined';
-    let name = '';
-    
+    let _name = '';
+
+    const printWinner = () => {
+        console.log (`WINNER IS ${_name}`)
+    }
+
+    const setName = (name) =>{
+        _name = name;
+    }
 
     const setToken = (token) =>{
         _tokenType = token;
@@ -113,6 +118,8 @@ const userFactory = () => {
 
         setToken,
         playTurn,
+        printWinner,
+        setName
 
     }
 
@@ -120,7 +127,7 @@ const userFactory = () => {
 }
 
 const displayController = (function(){
-    let _turn =0;
+    let _turn =1;
     let clickCol ='';
     let clickRow ='';
     const _htmlBoard = document.querySelectorAll('[data-row]')
@@ -138,25 +145,30 @@ const displayController = (function(){
             }else{
 
                 if(_turn % 2 == 0) { //check for even turn
-                    playerOne.playTurn(clickRow,clickCol);
-                }else{
                     playerTwo.playTurn(clickRow,clickCol);
+                }else{
+                    playerOne.playTurn(clickRow,clickCol);
                     
                 }
-                _turn++;
+                
 
-                gameBoard.checkWin();
-
+                if(gameBoard.checkWin()){
+                    if(_turn % 2 == 0) {
+                        playerTwo.printWinner();
+                    }else{
+                        console.log("par");
+                        playerOne.printWinner();
+                    }
+                    
+                }
+                    
                 if(_checkNoMoves()){
                     console.log("GAME IS OVER")
                     // We should not let the user click anymore or print something
                 }
-               
-            }
-            
-            
-            
 
+                _turn++;
+            }
         }))
     }
 
@@ -193,9 +205,10 @@ const displayController = (function(){
 
 const playerOne = userFactory();
 const playerTwo = userFactory();
-
+playerOne.setName("Carlos");
+playerTwo.setName("Claudia");
 playerOne.setToken("X");
-playerTwo.setToken("O")
+playerTwo.setToken("O");
 
 displayController.startGame();
 
