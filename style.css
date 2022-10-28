@@ -1,5 +1,14 @@
+body{
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 15px;
+    height: 100vh;
+    margin: 0;
+}
 .board {
     display: grid;
+    justify-content: center;
+    align-content: center;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
     gap: 3px;
@@ -10,4 +19,25 @@
     justify-content: center;
     align-items: center;
     font-size: 2rem;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.title{
+    font-size: 1.3rem;
+}
+.gameControl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding-bottom: 8%;
+}
+
+button{
+    width: 15%;
 }
