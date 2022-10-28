@@ -32,7 +32,7 @@ const gameBoard =(function () {
 
     const checkCellOccupied = (row,col) =>{
 
-        if(_board[row][col] != ""){
+        if(_board[row][col] !== ""){
             return 1;
         }
 
@@ -94,9 +94,16 @@ const displayController = (function(){
                     
                 }
                 _turn++;
+
+                if(_checkNoMoves()){
+                    console.log("GAME IS OVER")
+                }
+                // if(_checkNoMoves){
+                //     console.log("Board is full");
+                // }
             }
             
-
+            
             
 
         }))
@@ -106,9 +113,36 @@ const displayController = (function(){
         // check the board for winner
         // check if all cells are occupy => draw
     }
+    const _checkNoMoves = () => {
+
+        let row=0;
+        let col=0;
+        let fullBoard = 1;
+        let foundEmpty = 0;
+        do{
+            col=0;
+            do{
+
+                if(!gameBoard.checkCellOccupied(row,col)){
+                    fullBoard =0;
+                    foundEmpty=1;
+                }
+                col++;
+
+            }while( !foundEmpty && col<3)
+
+            row++;
+
+        }while( !foundEmpty && row<3)
+
     
+
+    return fullBoard;
+
+    }
     return {
         startGame,
+
     }
 })()
 
