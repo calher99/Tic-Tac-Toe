@@ -99,9 +99,21 @@ const gameBoard =(function () {
 const userFactory = () => {
     let _tokenType ='undefined';
     let _name = '';
+    
 
-    const printWinner = () => {
-        console.log (`WINNER IS ${_name}`)
+    const printWinner = (id) => {
+
+        const nameImput = document.querySelector(('#'.concat(id)))
+        const inputText= nameImput.value;
+        const inputPlaceholder = nameImput.placeholder;
+        if(inputText === ""){
+            setName(inputPlaceholder);
+            console.log (`WINNER IS ${_name}`)
+        }else{
+            setName(inputText);
+            console.log (`WINNER IS ${_name}`)
+        }
+        
     }
 
     const setName = (name) =>{
@@ -158,9 +170,9 @@ const displayController = (function(){
 
                 if(gameBoard.checkWin()){
                     if(_turn % 2 == 0) {
-                        playerTwo.printWinner();
+                        playerTwo.printWinner("playerTwo");
                     }else{
-                        playerOne.printWinner();
+                        playerOne.printWinner("playerOne");
                     }
                     
                 }
