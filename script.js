@@ -209,21 +209,23 @@ const displayController = (function(){
     }
 
     const initializeSVG = () => {
-
+        
         _changeNameButtons.forEach( button => {
-            button.addEventListener('click', () => {
-                // const input = document.querySelector('#myInput'); MUST BE SPECIFIC INPUT
-                console.log(e.target.dataset.player)
-
-                // input.removeAttribute('readonly');
+            button.addEventListener('click', (e) => {
+                
+                e.stopPropagation();
+                const dataset = e.target.dataset.player;
+                const id = ('#').concat(dataset);
+                const input = document.querySelector(id);
+                input.removeAttribute('readonly');
             
-                // const modifyAttribute =(element) => {
-                //     element.setAttribute('readonly',"");
-                // } 
-                // setTimeout(modifyAttribute, 10000, input);
+                const modifyAttribute =(element) => {
+                    element.setAttribute('readonly',"");
+                } 
+                setTimeout(modifyAttribute, 10000, input);
             })
 
-        })
+        },{capture: true})
         
         
     }
