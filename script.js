@@ -1,15 +1,17 @@
 const gameBoard =(function () {
 
     let _board =[['','',''],['','',''],['','','']];
-    const _htmlBoard = document.querySelectorAll('[data-row]')
+    const _htmlBoard = document.querySelectorAll('[data-row]');
+    
 
     const initialize = () => {
+
         for(let i = 0 ; i < 3; i++ ){
             for(let j = 0 ; j < 3; j++ ){
                 _board[i][j] = '';
             }
         }
-        
+        render();
     }
 
     const move = (row,column,token) =>{
@@ -131,6 +133,8 @@ const displayController = (function(){
     let clickCol ='';
     let clickRow ='';
     const _htmlBoard = document.querySelectorAll('[data-row]')
+    const _clearButton = document.querySelector('#initialize');
+    const _changeNameButtons = document.querySelectorAll('#buttonSVG');
 
     const startGame = () => {
 
@@ -156,7 +160,6 @@ const displayController = (function(){
                     if(_turn % 2 == 0) {
                         playerTwo.printWinner();
                     }else{
-                        console.log("par");
                         playerOne.printWinner();
                     }
                     
@@ -194,10 +197,42 @@ const displayController = (function(){
         }while( !foundEmpty && row<3)
 
     return fullBoard;
+    }
+
+
+    const initializeButtons = () => {
+        _clearButton.addEventListener('click' , () => {
+            gameBoard.initialize();
+            _turn=1;
+        });
 
     }
+
+    const initializeSVG = () => {
+
+        _changeNameButtons.forEach( button => {
+            button.addEventListener('click', () => {
+                // const input = document.querySelector('#myInput'); MUST BE SPECIFIC INPUT
+                console.log(e.target.dataset.player)
+
+                // input.removeAttribute('readonly');
+            
+                // const modifyAttribute =(element) => {
+                //     element.setAttribute('readonly',"");
+                // } 
+                // setTimeout(modifyAttribute, 10000, input);
+            })
+
+        })
+        
+        
+    }
+
+
     return {
         startGame,
+        initializeButtons,
+        initializeSVG
 
     }
 })()
@@ -211,5 +246,7 @@ playerOne.setToken("X");
 playerTwo.setToken("O");
 
 displayController.startGame();
+displayController.initializeButtons();
+displayController.initializeSVG();
 
-
+// PROBLEMA CUANDO CLEAR NO CLEAR CONTADORES DE TURNOO
