@@ -99,19 +99,18 @@ const gameBoard =(function () {
 const userFactory = () => {
     let _tokenType ='undefined';
     let _name = '';
+    let _score = 0;
     
 
     const printWinner = (id) => {
 
         const nameImput = document.querySelector(('#'.concat(id)))
-        const inputText= nameImput.value;
-        const inputPlaceholder = nameImput.placeholder;
-        if(inputText === ""){
-            setName(inputPlaceholder);
-            console.log (`WINNER IS ${_name}`)
+        const inputText= nameImput.value; 
+        const inputPlaceholder= nameImput.placeholder;  
+        if (inputText ===""){
+            console.log(`Winner is ${inputPlaceholder}`);
         }else{
-            setName(inputText);
-            console.log (`WINNER IS ${_name}`)
+            console.log(`Winner is ${inputText}`);
         }
         
     }
@@ -125,6 +124,11 @@ const userFactory = () => {
     }
     const playTurn = (row,column) =>{
         gameBoard.move(row,column,_tokenType);
+    }
+
+    const setScore = (id) => {
+
+        const scoreBoard = document.querySelector(('#'.concat(id)))
     }
 
 
