@@ -129,6 +129,7 @@ const userFactory = () => {
     const setScore = (id) => {
 
         const scoreBoard = document.querySelector(('#'.concat(id)))
+        scoreBoard.textContent= parseInt(scoreBoard.textContent)+1;
     }
 
 
@@ -137,7 +138,8 @@ const userFactory = () => {
         setToken,
         playTurn,
         printWinner,
-        setName
+        setName,
+        setScore
 
     }
 
@@ -175,8 +177,10 @@ const displayController = (function(){
                 if(gameBoard.checkWin()){
                     if(_turn % 2 == 0) {
                         playerTwo.printWinner("playerTwo");
+                        playerTwo.setScore("playerTwoScore");
                     }else{
                         playerOne.printWinner("playerOne");
+                        playerOne.setScore("playerOneScore");
                     }
                     
                 }
