@@ -126,12 +126,18 @@ const userFactory = () => {
         gameBoard.move(row,column,_tokenType);
     }
 
-    const setScore = (id) => {
+    const addScore = (id) => {
 
+        _score++;
         const scoreBoard = document.querySelector(('#'.concat(id)))
-        scoreBoard.textContent= parseInt(scoreBoard.textContent)+1;
+        scoreBoard.textContent= _score;
     }
 
+    const setScore = (id,score) => {
+        _score= score;
+        const scoreBoard = document.querySelector(('#'.concat(id)))
+        scoreBoard.textContent= _score;
+    }
 
     return{
 
@@ -139,6 +145,7 @@ const userFactory = () => {
         playTurn,
         printWinner,
         setName,
+        addScore,
         setScore
 
     }
@@ -153,6 +160,8 @@ const displayController = (function(){
     const _htmlBoard = document.querySelectorAll('[data-row]')
     const _clearButton = document.querySelector('#initialize');
     const _changeNameButtons = document.querySelectorAll('#buttonSVG');
+    const _resetButton = document.querySelector('#reset');
+
 
     const startGame = () => {
 
@@ -177,10 +186,10 @@ const displayController = (function(){
                 if(gameBoard.checkWin()){
                     if(_turn % 2 == 0) {
                         playerTwo.printWinner("playerTwo");
-                        playerTwo.setScore("playerTwoScore");
+                        playerTwo.addScore("playerTwoScore");
                     }else{
                         playerOne.printWinner("playerOne");
-                        playerOne.setScore("playerOneScore");
+                        playerOne.addScore("playerOneScore");
                     }
                     
                 }
@@ -249,12 +258,20 @@ const displayController = (function(){
         
         
     }
+    const initializeReset = () => {
+        _resetButton.addEventListener('click', () =>{
+            playerOne.setScore("playerOneScore",0);
+            playerTwo.setScore("playerTwoScore",0);
+        })
 
+
+    }
 
     return {
         startGame,
         initializeButtons,
-        initializeSVG
+        initializeSVG,
+        initializeReset
 
     }
 })()
@@ -270,5 +287,6 @@ playerTwo.setToken("O");
 displayController.startGame();
 displayController.initializeButtons();
 displayController.initializeSVG();
+displayController.initializeReset();
 
 // PROBLEMA CUANDO CLEAR NO CLEAR CONTADORES DE TURNOO
