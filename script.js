@@ -3,7 +3,6 @@ const gameBoard =(function () {
     let _board =[['','',''],['','',''],['','','']];
     const _htmlBoard = document.querySelectorAll('[data-row]');
     
-
     const initialize = () => {
 
         for(let i = 0 ; i < 3; i++ ){
@@ -19,14 +18,18 @@ const gameBoard =(function () {
         render();
 
     }
-    const print = () => {
-        console.table(_board);
-    }
+   
     const render = () => {
         let k=0;
         for(let i = 0 ; i < 3; i++ ){
             for(let j = 0 ; j < 3; j++ ){
                 _htmlBoard[k].textContent= _board[i][j];
+                if(_htmlBoard[k].textContent !==""){
+                    // Add cursor not allowed class to that cell
+                    _htmlBoard[k].classList.add("filled")
+                }else{
+                    _htmlBoard[k].classList.remove("filled")
+                }
                 k++;
             }
         }
@@ -90,7 +93,6 @@ const gameBoard =(function () {
         initialize,
         move,
         render,
-        print,
         checkCellOccupied,
         checkWin
     }
@@ -100,7 +102,6 @@ const userFactory = () => {
     let _tokenType ='undefined';
     let _name = '';
     let _score = 0;
-    
 
     const printWinner = (id) => {
 
@@ -149,8 +150,6 @@ const userFactory = () => {
         setScore
 
     }
-
-
 }
 
 const displayController = (function(){
@@ -162,7 +161,6 @@ const displayController = (function(){
     const _changeNameButtons = document.querySelectorAll('#buttonSVG');
     const _resetButton = document.querySelector('#reset');
 
-
     const startGame = () => {
 
         _htmlBoard.forEach(box => box.addEventListener("click", (e) => {
@@ -171,8 +169,7 @@ const displayController = (function(){
 
             if(gameBoard.checkCellOccupied(clickRow,clickCol)){
 
-                console.log("try another move!")
-
+                // clicking in the an occupied cell
             }else{
 
                 if(_turn % 2 == 0) { //check for even turn
@@ -203,7 +200,6 @@ const displayController = (function(){
             }
         }))
     }
-
   
     const _checkNoMoves = () => {
 
@@ -227,7 +223,6 @@ const displayController = (function(){
 
     return fullBoard;
     }
-
 
     const initializeButtons = () => {
         _clearButton.addEventListener('click' , () => {
@@ -279,8 +274,6 @@ const displayController = (function(){
 
 const playerOne = userFactory();
 const playerTwo = userFactory();
-playerOne.setName("Carlos");
-playerTwo.setName("Claudia");
 playerOne.setToken("X");
 playerTwo.setToken("O");
 
@@ -289,4 +282,8 @@ displayController.initializeButtons();
 displayController.initializeSVG();
 displayController.initializeReset();
 
-// PROBLEMA CUANDO CLEAR NO CLEAR CONTADORES DE TURNOO
+// Once anyone wins block more moves
+// make animation to insert your names
+// SAY WHO WON
+//Cursor: not allowed;  una clase para poner a la celda sobre la que estamos cuando 
+// ya tenemos algo escrito sobre ella

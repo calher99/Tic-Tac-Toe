@@ -27,13 +27,17 @@ body{
     grid-template-rows: repeat(3, var(--cellSize));
     gap: 3px;
 }
-.board>div{
+.cell{
     border:  1px solid black;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: calc(var(--cellSize)*0.8);
     cursor: pointer;
+}
+
+.cell.filled {
+    cursor: not-allowed;
 }
 
 .header{
@@ -118,3 +122,8 @@ input {
     grid-row: 2/3;
     grid-column: 2/3;
  }
+
+label:hover + input{
+    background-color: rgba(0,0,0,0.1);
+
+}
