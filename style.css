@@ -1,16 +1,30 @@
+:root{
+    --cellSize:100px;
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins-Regular.ttf');
+}
+@font-face {
+    font-family: 'Poppins';
+    src: url('./fonts/Poppins-Bold.ttf');
+    font-weight: bold;
+}
+
 body{
     display: grid;
     grid-template-rows: auto 1fr;
     gap: 15px;
     height: 100vh;
     margin: 0;
+    font-family: 'Poppins', sans-serif;
 }
 .board {
     display: grid;
     justify-content: center;
     align-content: center;
-    grid-template-columns: repeat(3, 100px);
-    grid-template-rows: repeat(3, 100px);
+    grid-template-columns: repeat(3, var(--cellSize));
+    grid-template-rows: repeat(3, var(--cellSize));
     gap: 3px;
 }
 .board>div{
@@ -18,7 +32,8 @@ body{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: calc(var(--cellSize)*0.8);
+    cursor: pointer;
 }
 
 .header{
@@ -29,6 +44,7 @@ body{
 
 .title{
     font-size: 1.3rem;
+    font-weight: bold;
 }
 .gameControl {
     display: flex;
@@ -39,7 +55,11 @@ body{
 }
 
 button{
-    width: 15%;
+    font-family: inherit;
+    width: 20%;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid black;
 }
 
 /* -----FOR PLAYER NAME MODIFICATION ----*/
@@ -87,7 +107,7 @@ input {
 .nameButton{
     grid-row: 1/2;
     grid-column: 2/3;
-
+    cursor: pointer;
 }
 .score{
     grid-row: 2/3;
