@@ -102,16 +102,25 @@ const userFactory = () => {
     let _tokenType ='undefined';
     let _name = '';
     let _score = 0;
+    const _overlay = document.querySelector('#overlay');
+    const _modal = document.querySelector('#modal');
+    const _winText = document.querySelector('#winText');
 
     const printWinner = (id) => {
 
         const nameImput = document.querySelector(('#'.concat(id)))
         const inputText= nameImput.value; 
-        const inputPlaceholder= nameImput.placeholder;  
+        const inputPlaceholder= nameImput.placeholder;
+        _modal.classList.add('active');
+        _overlay.classList.add('active');
+
         if (inputText ===""){
             console.log(`Winner is ${inputPlaceholder}`);
+            _winText.textContent = `Winner is ${inputPlaceholder}`;
+
         }else{
             console.log(`Winner is ${inputText}`);
+            _winText.textContent = `Winner is ${inputText}`;
         }
         
     }
@@ -160,6 +169,9 @@ const displayController = (function(){
     const _clearButton = document.querySelector('#initialize');
     const _changeNameButtons = document.querySelectorAll('#buttonSVG');
     const _resetButton = document.querySelector('#reset');
+    const _modalButton = document.querySelector('#closeModal');
+    const _overlay = document.querySelector('#overlay');
+    const _modal = document.querySelector('#modal');
 
     const startGame = () => {
 
@@ -184,6 +196,7 @@ const displayController = (function(){
                     if(_turn % 2 == 0) {
                         playerTwo.printWinner("playerTwo");
                         playerTwo.addScore("playerTwoScore");
+                        //Create a small modal that appears wehn won?¿
                     }else{
                         playerOne.printWinner("playerOne");
                         playerOne.addScore("playerOneScore");
@@ -230,13 +243,24 @@ const displayController = (function(){
             _turn=1;
         });
 
+        _resetButton.addEventListener('click', () =>{
+            playerOne.setScore("playerOneScore",0);
+            playerTwo.setScore("playerTwoScore",0);
+        })
+
+        _modalButton.addEventListener('click', () =>{
+            gameBoard.initialize();
+            _turn=1;
+            _modal.classList.remove('active');
+            _overlay.classList.remove('active');
+        })
     }
 
     const initializeSVG = () => {
         
         _changeNameButtons.forEach( button => {
             button.addEventListener('click', (e) => {
-                
+                //Stop bubbling bc we have label,svg and fill. we only want to trigger one of them
                 e.stopPropagation();
                 const dataset = e.target.dataset.player;
                 const id = ('#').concat(dataset);
@@ -246,6 +270,7 @@ const displayController = (function(){
                 const modifyAttribute =(element) => {
                     element.setAttribute('readonly',"");
                 } 
+                // Provide 10 secs to enter the name
                 setTimeout(modifyAttribute, 10000, input);
             })
 
@@ -253,20 +278,12 @@ const displayController = (function(){
         
         
     }
-    const initializeReset = () => {
-        _resetButton.addEventListener('click', () =>{
-            playerOne.setScore("playerOneScore",0);
-            playerTwo.setScore("playerTwoScore",0);
-        })
-
-
-    }
+    
 
     return {
         startGame,
         initializeButtons,
         initializeSVG,
-        initializeReset
 
     }
 })()
@@ -280,10 +297,7 @@ playerTwo.setToken("O");
 displayController.startGame();
 displayController.initializeButtons();
 displayController.initializeSVG();
-displayController.initializeReset();
-
 // Once anyone wins block more moves
-// make animation to insert your names
 // SAY WHO WON
-//Cursor: not allowed;  una clase para poner a la celda sobre la que estamos cuando 
-// ya tenemos algo escrito sobre ella
+
+ //Create a small modal that appears when won?¿
